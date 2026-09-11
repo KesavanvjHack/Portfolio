@@ -1,10 +1,64 @@
-// src/components/sections/Hero.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiChevronDown } from 'react-icons/fi';
 import { Button } from '../ui/Button';
 import { HeroCircleSlider } from './HeroCircleSlider';
 import { profileData } from '../../data/profile';
+
+// 3D Horizontal Flipping Role Title (flips right & left side)
+const FlippingRoleTitle = () => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  useEffect(() => {
+    // Flips back and forth between right and left side every 3.5 seconds
+    const interval = setInterval(() => {
+      setIsFlipped(prev => !prev);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div 
+      className="my-1 select-none cursor-pointer inline-block text-left"
+      style={{ perspective: '1200px' }}
+      onClick={() => setIsFlipped(prev => !prev)}
+      title="Click to flip"
+    >
+      <motion.div
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ duration: 0.85, ease: [0.4, 0, 0.2, 1] }}
+        style={{ transformStyle: 'preserve-3d' }}
+        className="relative inline-block"
+      >
+        {/* Front Face */}
+        <h1 
+          style={{ 
+            backfaceVisibility: 'hidden', 
+            WebkitBackfaceVisibility: 'hidden' 
+          }}
+          className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 flex flex-wrap items-center gap-x-3.5"
+        >
+          <span className="text-slate-900 dark:text-white">Full Stack</span>
+          <span className="text-gradient">Developer</span>
+        </h1>
+
+        {/* Back Face (Flipped horizontally 180deg to read properly) */}
+        <h1 
+          style={{ 
+            backfaceVisibility: 'hidden', 
+            WebkitBackfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)'
+          }}
+          className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 flex flex-wrap items-center gap-x-3.5 absolute inset-0"
+        >
+          <span className="text-gradient">Full Stack</span>
+          <span className="text-slate-900 dark:text-white">Developer</span>
+        </h1>
+      </motion.div>
+    </div>
+  );
+};
 
 export const Hero = () => {
   return (
@@ -19,19 +73,16 @@ export const Hero = () => {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-xl md:text-2xl font-medium text-slate-600 dark:text-slate-400 mb-4">
-              Hi, I'm {profileData.name}
+          <div className="text-left">
+            {/* Name starts directly from the left side without sliding or typing effect */}
+            <h2 className="text-xl md:text-2xl font-medium text-slate-600 dark:text-slate-400 mb-3 text-left">
+              Hi, I'm <span className="font-semibold text-slate-900 dark:text-white">{profileData.name}</span>
             </h2>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-              <span className="text-slate-900 dark:text-white">Full Stack </span>
-              <span className="text-gradient">Developer</span>
-            </h1>
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-lg mb-8 leading-relaxed">
+
+            {/* Full Stack Developer flips right & left side in 3D */}
+            <FlippingRoleTitle />
+
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-lg mb-8 leading-relaxed text-left">
               {profileData.shortDescription}
             </p>
             
@@ -57,7 +108,7 @@ export const Hero = () => {
                 <span className="sr-only">LinkedIn</span>
               </a>
             </div>
-          </motion.div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
