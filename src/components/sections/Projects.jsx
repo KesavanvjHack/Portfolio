@@ -52,9 +52,37 @@ const ProjectCard = ({ project, index }) => {
       </div>
       
       <div className="p-6 md:p-8 flex flex-col flex-grow">
-        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-          {project.title}
-        </h3>
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+            {project.title}
+          </h3>
+          <div className="flex items-center space-x-1 shrink-0 pt-1">
+            {project.githubUrl && project.githubUrl !== '#' && (
+              <a 
+                href={project.githubUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                title="View Code on GitHub"
+                aria-label={`View ${project.title} source code on GitHub`}
+                className="p-2 rounded-lg text-slate-500 hover:text-primary-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-primary-400 dark:hover:bg-slate-800 transition-colors"
+              >
+                <FiGithub size={20} />
+              </a>
+            )}
+            {project.liveUrl && project.liveUrl !== '#' && (
+              <a 
+                href={project.liveUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                title="View Live Demo"
+                aria-label={`View ${project.title} live demo`}
+                className="p-2 rounded-lg text-slate-500 hover:text-primary-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-primary-400 dark:hover:bg-slate-800 transition-colors"
+              >
+                <FiExternalLink size={20} />
+              </a>
+            )}
+          </div>
+        </div>
         <p className="text-slate-600 dark:text-slate-400 mb-6 flex-grow line-clamp-3">
           {project.shortDescription || project.description}
         </p>
