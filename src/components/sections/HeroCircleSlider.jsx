@@ -103,7 +103,7 @@ export const HeroCircleSlider = () => {
               initial={{ opacity: 0, scale: 1.05 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.95, ease: [0.25, 1, 0.5, 1] }}
               className="relative w-full h-full"
             >
               {/* Slide Background Image with Optimized Fit */}

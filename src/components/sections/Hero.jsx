@@ -5,15 +5,15 @@ import { Button } from '../ui/Button';
 import { HeroCircleSlider } from './HeroCircleSlider';
 import { profileData } from '../../data/profile';
 
-// Left-origin transition for Kesava Perumal G (cycles every 2 seconds)
+// Left-origin transition for Kesava Perumal G (slow, graceful 1.5s transition)
 const LeftOriginNameTransition = () => {
   const [cycle, setCycle] = useState(0);
 
   useEffect(() => {
-    // Transitions starting from the left side every 2 seconds
+    // Relaxed interval so transition has time to breathe
     const interval = setInterval(() => {
       setCycle(prev => prev + 1);
-    }, 2000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -22,29 +22,29 @@ const LeftOriginNameTransition = () => {
     <span className="relative inline-block overflow-hidden align-bottom">
       <motion.span
         key={cycle}
-        initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0.25 }}
+        initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0.3 }}
         animate={{ clipPath: 'inset(0 0% 0 0)', opacity: 1 }}
-        transition={{ duration: 0.75, ease: [0.25, 1, 0.5, 1] }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
         className="font-bold text-slate-900 dark:text-white inline-block origin-left"
       >
         {profileData.name}
       </motion.span>
 
-      {/* High-tech light wipe beam starting from the left side every 2 seconds */}
+      {/* Smooth, slow light wipe beam starting from the left side */}
       <motion.span
         key={`beam-${cycle}`}
-        initial={{ left: '-60%', opacity: 0 }}
-        animate={{ left: '140%', opacity: [0, 0.9, 0.9, 0] }}
-        transition={{ duration: 0.85, ease: 'easeInOut' }}
-        className="absolute inset-y-0 w-16 bg-gradient-to-r from-transparent via-primary-400/50 dark:via-primary-300/50 to-transparent skew-x-12 pointer-events-none"
+        initial={{ left: '-70%', opacity: 0 }}
+        animate={{ left: '150%', opacity: [0, 0.85, 0.85, 0] }}
+        transition={{ duration: 1.6, ease: 'easeInOut' }}
+        className="absolute inset-y-0 w-20 bg-gradient-to-r from-transparent via-primary-400/40 dark:via-primary-300/40 to-transparent skew-x-12 pointer-events-none"
       />
 
-      {/* Left-origin accent underline expanding from left */}
+      {/* Slow left-origin accent underline expanding gracefully */}
       <motion.span
         key={`accent-${cycle}`}
         initial={{ scaleX: 0 }}
-        animate={{ scaleX: [0, 1, 0.8] }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+        animate={{ scaleX: [0, 1, 0.85] }}
+        transition={{ duration: 1.5, ease: 'easeOut' }}
         style={{ originX: 0 }}
         className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary-500 via-indigo-500 to-transparent rounded-full"
       />
@@ -52,15 +52,15 @@ const LeftOriginNameTransition = () => {
   );
 };
 
-// 3D Horizontal Flipping Role Title (flips right & left side every 2 seconds)
+// 3D Horizontal Flipping Role Title (slow, smooth flip right & left side)
 const FlippingRoleTitle = () => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
-    // Flips back and forth between right and left side every 2 seconds
+    // Flips back and forth smoothly every 4 seconds
     const interval = setInterval(() => {
       setIsFlipped(prev => !prev);
-    }, 2000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -74,7 +74,7 @@ const FlippingRoleTitle = () => {
     >
       <motion.div
         animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ duration: 0.75, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 1.35, ease: [0.25, 1, 0.5, 1] }}
         style={{ transformStyle: 'preserve-3d' }}
         className="relative inline-block"
       >
@@ -120,14 +120,20 @@ export const Hero = () => {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          <div className="text-left">
-            {/* Name starts from the left side with left-origin reveal transition every 2 seconds */}
+          {/* Gentle, slow page-load entrance for Hero text */}
+          <motion.div 
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="text-left"
+          >
+            {/* Name starts from the left side with smooth, slow transition */}
             <h2 className="text-xl md:text-2xl font-medium text-slate-600 dark:text-slate-400 mb-3 text-left flex items-center flex-wrap gap-x-2">
               <span>Hi, I'm</span>
               <LeftOriginNameTransition />
             </h2>
 
-            {/* Full Stack Developer flips right & left side in 3D every 2 seconds */}
+            {/* Full Stack Developer flips right & left side with a slow, majestic 3D transition */}
             <FlippingRoleTitle />
 
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-lg mb-8 leading-relaxed text-left">
@@ -156,12 +162,12 @@ export const Hero = () => {
                 <span className="sr-only">LinkedIn</span>
               </a>
             </div>
-          </div>
+          </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 1.4, delay: 0.2, ease: "easeOut" }}
             className="flex justify-center relative my-6 lg:my-0"
           >
             <HeroCircleSlider />
