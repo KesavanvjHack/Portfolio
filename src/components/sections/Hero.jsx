@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiChevronDown } from 'react-icons/fi';
 import { Button } from '../ui/Button';
+import { HeroCircleSlider } from './HeroCircleSlider';
 import { profileData } from '../../data/profile';
 
 export const Hero = () => {
@@ -59,47 +60,12 @@ export const Hero = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="hidden lg:flex justify-center relative"
+            className="flex justify-center relative my-6 lg:my-0"
           >
-            {/* Visual Element: Profile Photo */}
-            <div className="relative w-full max-w-md aspect-square rounded-full p-4 flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary-500 to-indigo-500 rounded-full animate-spin-slow opacity-20 blur-xl"></div>
-              <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/10 shadow-2xl glass flex items-center justify-center bg-slate-100 dark:bg-slate-800">
-                {/* Fallback to text if image not found, but we expect user to add profile.png */}
-                <img 
-                  src="/profile.jpg" 
-                  alt="Kesava Perumal G" 
-                  className="w-full h-full object-cover object-top z-10"
-                  onError={(e) => {
-                    e.target.onerror = null; 
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
-                />
-                <div className="absolute inset-0 hidden items-center justify-center text-slate-400 text-sm text-center p-4">
-                  Please place your transparent photo as <strong>public/profile.jpg</strong>
-                </div>
-              </div>
-              
-              {/* Floating badges */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }} 
-                transition={{ repeat: Infinity, duration: 4 }}
-                className="absolute -right-4 top-20 glass-card px-4 py-2 rounded-lg shadow-lg font-bold text-sm text-slate-800 dark:text-slate-200 z-20"
-              >
-                React.js
-              </motion.div>
-              <motion.div 
-                animate={{ y: [0, 15, 0] }} 
-                transition={{ repeat: Infinity, duration: 5, delay: 1 }}
-                className="absolute -left-4 bottom-24 glass-card px-4 py-2 rounded-lg shadow-lg font-bold text-sm text-slate-800 dark:text-slate-200 z-20"
-              >
-                Django
-              </motion.div>
-            </div>
+            <HeroCircleSlider />
           </motion.div>
         </div>
 
