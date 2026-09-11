@@ -16,11 +16,13 @@ const ProjectCard = ({ project, index }) => {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       className={`glass-card rounded-2xl overflow-hidden flex flex-col h-full group ${project.featured ? 'ring-2 ring-primary-500/50' : ''}`}
     >
-      <div className="relative overflow-hidden h-32 sm:h-40">
+      <div className="relative overflow-hidden h-44 sm:h-52 w-full bg-slate-900">
         <img 
           src={project.image} 
           alt={project.title} 
-          className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+          decoding="async"
+          className="object-cover object-center w-full h-full transform group-hover:scale-105 transition-transform duration-500 will-change-transform"
         />
         {project.featured && (
           <div className="absolute top-4 right-4 bg-yellow-500/90 text-white px-3 py-1 text-xs font-bold rounded-full flex items-center shadow-lg backdrop-blur-sm">

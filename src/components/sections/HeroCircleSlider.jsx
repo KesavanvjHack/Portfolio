@@ -56,6 +56,16 @@ export const HeroCircleSlider = () => {
     setImgError(false);
   };
 
+  // Preload all slide images for instant, flicker-free transitions
+  useEffect(() => {
+    slides.forEach(slide => {
+      if (slide.image) {
+        const img = new Image();
+        img.src = slide.image;
+      }
+    });
+  }, [slides]);
+
   // 5-second automatic sliding
   useEffect(() => {
     if (isPaused) return;
@@ -90,19 +100,24 @@ export const HeroCircleSlider = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide.id}
-              initial={{ opacity: 0, scale: 1.08 }}
+              initial={{ opacity: 0, scale: 1.05 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.94 }}
-              transition={{ duration: 0.65, ease: "easeInOut" }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
               className="relative w-full h-full"
             >
-              {/* Slide Background Image */}
+              {/* Slide Background Image with Optimized Fit */}
               {!imgError ? (
                 <img
                   src={currentSlide.image}
                   alt={currentSlide.title}
                   onError={() => setImgError(true)}
-                  className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700"
+                  loading={currentIndex === 0 ? "eager" : "lazy"}
+                  fetchPriority={currentIndex === 0 ? "high" : "auto"}
+                  decoding="async"
+                  className={`w-full h-full object-cover ${
+                    currentSlide.isProfile ? 'object-top' : 'object-center'
+                  } transform group-hover:scale-105 transition-transform duration-700 will-change-transform`}
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-primary-950 to-slate-900 text-white p-6 text-center">
@@ -111,14 +126,14 @@ export const HeroCircleSlider = () => {
                 </div>
               )}
 
-              {/* Glassmorphism Info Overlay (Bottom portion of circle) */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/60 to-transparent flex flex-col justify-end items-center text-center p-4 sm:p-6 pb-6 text-white">
+              {/* Glassmorphism Info Overlay (Streamlined for maximum image visibility) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent flex flex-col justify-end items-center text-center p-3 sm:p-5 pb-4 sm:pb-5 text-white">
                 {/* Category / Tag */}
                 <motion.span 
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-primary-500/30 text-primary-200 backdrop-blur-md border border-primary-400/30 mb-1"
+                  transition={{ delay: 0.15 }}
+                  className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-semibold bg-primary-500/30 text-primary-200 backdrop-blur-md border border-primary-400/30 mb-1"
                 >
                   {currentSlide.tag}
                 </motion.span>
